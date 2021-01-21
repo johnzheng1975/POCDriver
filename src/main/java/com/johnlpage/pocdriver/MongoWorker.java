@@ -399,7 +399,7 @@ public class MongoWorker implements Runnable {
             @SuppressWarnings("unused")
             Document obj2 = cursor2.next();
             //System.out.println(obj);
-            System.out.println("_id=" + obj2.getString("_id"));
+            //System.out.println("_id=" + obj2.getString("_id"));
         }
         cursor2.close();
         //System.out.println(mongoClient.getDatabase("POCDB").getCollection("clients_type").find(query));

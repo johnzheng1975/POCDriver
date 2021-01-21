@@ -185,7 +185,7 @@ public class TestRecord {
 				String[] arrct={"devpaid-prod", "zytest-dev", "devpaid-fortest", "testphoenix-test", "testjackydev0119-dev"};
 				Random r=new Random();
 				int randomNumber=r.nextInt(arrct.length);
-				System.out.println(arrct[randomNumber]);
+				//System.out.println(arrct[randomNumber]);
 				// put in a string
 				String fieldContent = arrct[randomNumber];
 				doc.append("fld" + fieldNo, fieldContent);
