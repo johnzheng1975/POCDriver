@@ -372,9 +372,9 @@ public class MongoWorker implements Runnable {
             cursor = coll.find(query).projection(fields(include(projFields))).limit(testOpts.rangeDocs).iterator();
         }
         while (cursor.hasNext()) {
-
             @SuppressWarnings("unused")
             Document obj = cursor.next();
+            System.out.println(obj);
         }
         cursor.close();
 
