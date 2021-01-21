@@ -374,8 +374,8 @@ public class MongoWorker implements Runnable {
         while (cursor.hasNext()) {
             @SuppressWarnings("unused")
             Document obj = cursor.next();
-            System.out.println(obj);
-            System.out.println(obj.getString("fld4"));
+            //System.out.println(obj);
+            //System.out.println(obj.getString("fld4"));
         }
         cursor.close();
 
@@ -393,8 +393,15 @@ public class MongoWorker implements Runnable {
         query2.append("_id", new Document("$in", idList)); //org.bson.Document
 		
         //MongoCursor<Document> cursor2;
-        //cursor2 = mongoClient.getDatabase("POCDB").getCollection("clients_type").find(query).limit(testOpts.rangeDocs).iterator();
-        System.out.println(mongoClient.getDatabase("POCDB").getCollection("clients_type").find(query));
+        cursor2 = mongoClient.getDatabase("POCDB").getCollection("clients_type").find(query).iterator();
+        while (cursor2.hasNext()) {
+            @SuppressWarnings("unused")
+            Document obj = cursor2.next();
+            //System.out.println(obj);
+            System.out.println("_id=" + obj.getString("_id"));
+        }
+        cursor.close();
+        //System.out.println(mongoClient.getDatabase("POCDB").getCollection("clients_type").find(query));
 		
         //System.out.println(mongoClient.getDatabase("POCDB").getCollection("clients_type").find());
 
