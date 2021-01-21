@@ -379,7 +379,24 @@ public class MongoWorker implements Runnable {
         }
         cursor.close();
 
-        System.out.println(mongoClient.getDatabase("POCDB").getCollection("clients_type").find());
+
+        List<String> idList = new ArrayList<String>();
+        idList.add("devpaid-prod");
+        idList.add("zytest-dev");
+        idList.add("devpaid-fortest");
+        idList.add("testphoenix-test");
+        idList.add("testjackydev0119-dev");
+        Document query2 = new Document();
+        //BsonDocument stringInQueries = new BsonDocument(field, new BsonDocument("$in", pureStringParamArray));
+        //orQueries.add(stringInQueries);
+		
+        query2.append("_id", new Document("$in", idList)); //org.bson.Document
+		
+        //MongoCursor<Document> cursor2;
+        //cursor2 = mongoClient.getDatabase("POCDB").getCollection("clients_type").find(query).limit(testOpts.rangeDocs).iterator();
+        System.out.println(mongoClient.getDatabase("POCDB").getCollection("clients_type").find(query));
+		
+        //System.out.println(mongoClient.getDatabase("POCDB").getCollection("clients_type").find());
 
         Date endtime = new Date();
         Long taken = endtime.getTime() - starttime.getTime();
