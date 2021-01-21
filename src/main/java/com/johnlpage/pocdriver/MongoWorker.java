@@ -394,7 +394,7 @@ public class MongoWorker implements Runnable {
 		
         MongoCursor<Document> cursor2;
         cursor2 = mongoClient.getDatabase("POCDB").getCollection("clients_type").find(query2).iterator();
-		System.out.println("------");
+		//System.out.println("------");
         while (cursor2.hasNext()) {
             @SuppressWarnings("unused")
             Document obj2 = cursor2.next();
