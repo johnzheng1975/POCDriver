@@ -180,6 +180,15 @@ public class TestRecord {
 						.abs(Math.floor(rng.nextGaussian() * 100000000 * 3000)));
 				now.setTime(t);
 				doc.append("fld" + fieldNo, now);
+			} else if (fieldNo == 4) // Field 4 from array which is client_type
+			{
+				String[] arrct={"devpaid-prod", "zytest-dev", "devpaid-fortest", "testphoenix-test", "testjackydev0119-dev"};
+				Random r=new Random();
+				int randomNumber=r.nextInt(arrct.length);
+				System.out.println(arrct[randomNumber]);
+				// put in a string
+				String fieldContent = arrct[randomNumber];
+				doc.append("fld" + fieldNo, fieldContent);
 			} else {
 				// put in a string
 				String fieldContent = CreateString(stringLength);
