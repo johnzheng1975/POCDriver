@@ -375,8 +375,11 @@ public class MongoWorker implements Runnable {
             @SuppressWarnings("unused")
             Document obj = cursor.next();
             System.out.println(obj);
+            System.out.println(obj.getString("fld4"));
         }
         cursor.close();
+
+        System.out.println(mongoClient.getDatabase("POCDB").getCollection("clients_type").count());
 
         Date endtime = new Date();
         Long taken = endtime.getTime() - starttime.getTime();
