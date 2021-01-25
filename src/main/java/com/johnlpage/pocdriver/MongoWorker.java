@@ -379,9 +379,14 @@ public class MongoWorker implements Runnable {
 
         //cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").find().lookup("clients_type","fld4","_id","clienttype").limit(testOpts.rangeDocs).iterator();
         //cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").find().limit(testOpts.rangeDocs).iterator();
+        List<Bson> lsbson = new ArrayList<Bson>();
         Bson b = lookup("clients_type","fld4","_id","clienttype");
-        System.out.println(b);
-        cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").find(b).limit(testOpts.rangeDocs).iterator();
+        Bson b2 = limit(testOpts.rangeDocs);
+        lsbson.add(b);
+        lsbson.add(b2);
+        System.out.println(lsbson);
+        //cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").aggregate(lsbson).iterator();
+        cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").aggregate(lsbson).iterator();
         System.out.println("after query!");
         
         while (cursor.hasNext()) {
