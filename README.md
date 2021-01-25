@@ -108,6 +108,7 @@ Control options
  --rangedocs     number of documents to fetch for range queries (default 10)
  --updatefields  number of fields to update (default 1)
  --projectfields number of fields to project in finds (default 0 - return full document)
+ --lookup        use lookup or not for range queries (default 0)
 ```
 Collection options
 -------------------

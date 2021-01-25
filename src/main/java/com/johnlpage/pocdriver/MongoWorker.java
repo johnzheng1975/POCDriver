@@ -28,7 +28,6 @@ import static com.mongodb.client.model.Aggregates.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public class MongoWorker implements Runnable {
 
     private MongoClient mongoClient;
@@ -203,7 +202,9 @@ public class MongoWorker implements Runnable {
                 // milliseonds might be OK but then 1:1 is not 100:100 so we need to be a bit
                 // smarter
                 long now = ZonedDateTime.now().toInstant().toEpochMilli();
-		if(mult ==0) { mult=1; }
+                if (mult == 0) {
+                    mult = 1;
+                }
                 rval = (int) (now % mult);
 
             }
@@ -356,73 +357,57 @@ public class MongoWorker implements Runnable {
     private void rangeQuery() {
         // Key Query
         rotateCollection();
-        Document query = new Document();
-        List<String> projFields = new ArrayList<String>(testOpts.numFields);
-        int recordno = getNextVal(sequence);
-        query.append("_id", new Document("$gt", new Document("w", workerID).append("i", recordno)));
         Date starttime = new Date();
         MongoCursor<Document> cursor;
-		/*
-        if (testOpts.projectFields == 0) {
-            cursor = coll.find(query).limit(testOpts.rangeDocs).iterator();  //Previously is find(query)
-        } else {
-            int numProjFields = (testOpts.projectFields <= testOpts.numFields) ? testOpts.projectFields
-                    : testOpts.numFields;
-            int i = 0;
-            while (i < numProjFields) {
-                projFields.add("fld" + i);
-                i++;
+
+        if (testOpts.lookup) {
+            // Way II
+            List<Bson> lsbson = new ArrayList<Bson>();
+            Bson b1 = lookup("clients_type", "fld4", "_id", "clienttype");
+            Bson b2 = limit(testOpts.rangeDocs);
+            lsbson.add(b1);
+            lsbson.add(b2);
+            System.out.println(lsbson);
+            cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").aggregate(lsbson).iterator();
+
+            while (cursor.hasNext()) {
+                @SuppressWarnings("unused")
+                Document obj = cursor.next();
+                // System.out.println(obj);
             }
-            cursor = coll.find().limit(testOpts.rangeDocs).iterator(); //Previously is find(query)
-        }
-		*/
+            cursor.close();
+        } else {
 
-        //cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").find().lookup("clients_type","fld4","_id","clienttype").limit(testOpts.rangeDocs).iterator();
-        //cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").find().limit(testOpts.rangeDocs).iterator();
-        List<Bson> lsbson = new ArrayList<Bson>();
-        Bson b = lookup("clients_type","fld4","_id","clienttype");
-        Bson b2 = limit(testOpts.rangeDocs);
-        lsbson.add(b);
-        lsbson.add(b2);
-        System.out.println(lsbson);
-        //cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").aggregate(lsbson).iterator();
-        cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").aggregate(lsbson).iterator();
-        System.out.println("after query!");
-        
-        while (cursor.hasNext()) {
-            @SuppressWarnings("unused")
-            Document obj = cursor.next();
-            System.out.println(obj);
-            //System.out.println(obj.getString("fld4"));
-        }
-        cursor.close();
+            // Way I
+            cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").find().limit(testOpts.rangeDocs)
+                    .iterator();
 
+            while (cursor.hasNext()) {
+                @SuppressWarnings("unused")
+                Document obj = cursor.next();
+                // System.out.println(obj);
+            }
+            cursor.close();
 
-        List<String> idList = new ArrayList<String>();
-        idList.add("devpaid-prod");
-        idList.add("zytest-dev");
-        idList.add("devpaid-fortest");
-        idList.add("testphoenix-test");
-        idList.add("testjackydev0119-dev");
-        Document query2 = new Document();
-        //BsonDocument stringInQueries = new BsonDocument(field, new BsonDocument("$in", pureStringParamArray));
-        //orQueries.add(stringInQueries);
-		
-        query2.append("_id", new Document("$in", idList)); //org.bson.Document
-		
-        MongoCursor<Document> cursor2;
-        cursor2 = mongoClient.getDatabase("POCDB").getCollection("clients_type").find(query2).iterator();
-		//System.out.println("------");
-        while (cursor2.hasNext()) {
-            @SuppressWarnings("unused")
-            Document obj2 = cursor2.next();
-            //System.out.println(obj);
-            //System.out.println("_id=" + obj2.getString("_id"));
+            List<String> idList = new ArrayList<String>();
+            idList.add("devpaid-prod");
+            idList.add("zytest-dev");
+            idList.add("devpaid-fortest");
+            idList.add("testphoenix-test");
+            idList.add("testjackydev0119-dev");
+            Document query2 = new Document();
+
+            query2.append("_id", new Document("$in", idList));
+
+            MongoCursor<Document> cursor2;
+            cursor2 = mongoClient.getDatabase("POCDB").getCollection("clients_type").find(query2).iterator();
+            while (cursor2.hasNext()) {
+                @SuppressWarnings("unused")
+                Document obj2 = cursor2.next();
+                // System.out.println(obj2.getString("_id"));
+            }
+            cursor2.close();
         }
-        cursor2.close();
-        //System.out.println(mongoClient.getDatabase("POCDB").getCollection("clients_type").find(query));
-		
-        //System.out.println(mongoClient.getDatabase("POCDB").getCollection("clients_type").find());
 
         Date endtime = new Date();
         Long taken = endtime.getTime() - starttime.getTime();

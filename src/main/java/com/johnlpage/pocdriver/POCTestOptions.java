@@ -44,6 +44,7 @@ public class POCTestOptions {
 	int arraynext = 0;
 	int numcollections = 1;
 	int rangeDocs=10;
+	boolean lookup=false;
 	int updateFields=1;
 	int projectFields=0;
 	boolean opsratio = false;
@@ -102,6 +103,7 @@ public class POCTestOptions {
 		cliopt.addOption(null,"fulltext",false,"Create fulltext index (default false)");
 		cliopt.addOption(null,"binary",true,"Add a binary blob of size KB");
 		cliopt.addOption(null,"rangedocs",true,"Number of documents to fetch for range queries (default 10)");
+		cliopt.addOption(null,"lookup",true,"lookup or not for range queries (default 0)");
 		cliopt.addOption(null,"updatefields",true,"Number of fields to update (default 1)");
 		cliopt.addOption(null,"projectfields",true,"Number of fields to project in finds (default 0, which is no projection)");				
 		cliopt.addOption(null,"debug",false,"Show more detail if exceptions occur during inserts/queries");
@@ -295,6 +297,11 @@ public class POCTestOptions {
 		if(cmd.hasOption("rangedocs"))
 		{
 			rangeDocs = Integer.parseInt(cmd.getOptionValue("rangedocs"));
+		}
+
+		if(cmd.hasOption("lookup"))
+		{
+			lookup = Boolean.getBoolean(cmd.getOptionValue("lookup"));
 		}
 
 		if(cmd.hasOption("updatefields"))
