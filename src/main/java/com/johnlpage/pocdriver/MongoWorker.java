@@ -11,6 +11,7 @@ import com.mongodb.client.model.WriteModel;
 import org.apache.commons.math3.distribution.ZipfDistribution;
 import org.bson.Document;
 import java.time.ZonedDateTime;
+import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,8 +24,10 @@ import java.util.regex.Pattern;
 import static com.mongodb.client.model.Projections.fields;
 import static com.mongodb.client.model.Projections.include;
 import static com.mongodb.client.model.Sorts.descending;
+import static com.mongodb.client.model.Aggregates.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 public class MongoWorker implements Runnable {
 
@@ -374,12 +377,16 @@ public class MongoWorker implements Runnable {
         }
 		*/
 
-        cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").find().limit(testOpts.rangeDocs).iterator();
+        //cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").find().lookup("clients_type","fld4","_id","clienttype").limit(testOpts.rangeDocs).iterator();
+        //cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").find().limit(testOpts.rangeDocs).iterator();
+        Bson b = lookup("clients_type","fld4","_id","clienttype");
+        cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").find(b).limit(testOpts.rangeDocs).iterator();
+        
         while (cursor.hasNext()) {
             @SuppressWarnings("unused")
             Document obj = cursor.next();
-            //System.out.println(obj);
-            System.out.println(obj.getString("fld4"));
+            System.out.println(obj);
+            //System.out.println(obj.getString("fld4"));
         }
         cursor.close();
 
