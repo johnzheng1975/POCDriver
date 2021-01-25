@@ -302,7 +302,9 @@ public class POCTestOptions {
 		if(cmd.hasOption("lookup"))
 		{
 			System.out.println(cmd.getOptionValue("lookup"));
-			lookup = Boolean.parseBoolean(cmd.getOptionValue("lookup"));
+			if(Integer.parseInt(cmd.getOptionValue("lookup"))==1){
+				lookup = true;
+			}
 			System.out.println(lookup);
 		}
 
