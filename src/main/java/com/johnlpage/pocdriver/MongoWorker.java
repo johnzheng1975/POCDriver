@@ -361,6 +361,7 @@ public class MongoWorker implements Runnable {
         MongoCursor<Document> cursor;
 
         if (testOpts.lookup) {
+            System.out.println("testOpts lookup is true, aggregate lookup now");
             // Way II
             List<Bson> lsbson = new ArrayList<Bson>();
             Bson b1 = lookup("clients_type", "fld4", "_id", "clienttype");
@@ -377,7 +378,7 @@ public class MongoWorker implements Runnable {
             }
             cursor.close();
         } else {
-
+            System.out.println("testOpts lookup is false, normal query now");
             // Way I
             cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").find().limit(testOpts.rangeDocs)
                     .iterator();
