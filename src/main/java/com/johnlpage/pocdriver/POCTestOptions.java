@@ -301,7 +301,9 @@ public class POCTestOptions {
 
 		if(cmd.hasOption("lookup"))
 		{
-			lookup = Boolean.getBoolean(cmd.getOptionValue("lookup"));
+			System.out.println(cmd.getOptionValue("lookup"));
+			lookup = Boolean.parseBoolean(cmd.getOptionValue("lookup"));
+			System.out.println(lookup);
 		}
 
 		if(cmd.hasOption("updatefields"))
