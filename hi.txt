@@ -1,1 +1,1 @@
-java -jar POCDriver.jar -k 20 -r 20  -i 10 -u 10 -b 20 -c "mongodb+srv://tmp_test:BT6UyJsgMyjSCdCn@cluster1.8l7a3.mongodb.net/POCDB"
+java -jar POCDriver.jar -k 20 -r 20  -i 10 -u 10 -b 20 -c "mongodb+srv://tmp_test:xxx@cluster1.8l7a3.mongodb.net/POCDB"
