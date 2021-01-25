@@ -364,7 +364,7 @@ public class MongoWorker implements Runnable {
         MongoCursor<Document> cursor;
 		/*
         if (testOpts.projectFields == 0) {
-            cursor = coll.find().limit(testOpts.rangeDocs).iterator();  //Previously is find(query)
+            cursor = coll.find(query).limit(testOpts.rangeDocs).iterator();  //Previously is find(query)
         } else {
             int numProjFields = (testOpts.projectFields <= testOpts.numFields) ? testOpts.projectFields
                     : testOpts.numFields;
@@ -380,7 +380,9 @@ public class MongoWorker implements Runnable {
         //cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").find().lookup("clients_type","fld4","_id","clienttype").limit(testOpts.rangeDocs).iterator();
         //cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").find().limit(testOpts.rangeDocs).iterator();
         Bson b = lookup("clients_type","fld4","_id","clienttype");
+        System.out.println(b);
         cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").find(b).limit(testOpts.rangeDocs).iterator();
+        System.out.println("after query!");
         
         while (cursor.hasNext()) {
             @SuppressWarnings("unused")
