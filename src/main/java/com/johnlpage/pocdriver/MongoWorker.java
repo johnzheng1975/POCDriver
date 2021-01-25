@@ -360,7 +360,7 @@ public class MongoWorker implements Runnable {
         Date starttime = new Date();
         MongoCursor<Document> cursor;
         if (testOpts.projectFields == 0) {
-            cursor = coll.find(query).limit(testOpts.rangeDocs).iterator();
+            cursor = coll.find().limit(testOpts.rangeDocs).iterator();  //Previously is find(query)
         } else {
             int numProjFields = (testOpts.projectFields <= testOpts.numFields) ? testOpts.projectFields
                     : testOpts.numFields;
@@ -369,7 +369,7 @@ public class MongoWorker implements Runnable {
                 projFields.add("fld" + i);
                 i++;
             }
-            cursor = coll.find(query).projection(fields(include(projFields))).limit(testOpts.rangeDocs).iterator();
+            cursor = coll.find().projection(fields(include(projFields))).limit(testOpts.rangeDocs).iterator(); //Previously is find(query)
         }
         while (cursor.hasNext()) {
             @SuppressWarnings("unused")
