@@ -359,6 +359,7 @@ public class MongoWorker implements Runnable {
         query.append("_id", new Document("$gt", new Document("w", workerID).append("i", recordno)));
         Date starttime = new Date();
         MongoCursor<Document> cursor;
+		/*
         if (testOpts.projectFields == 0) {
             cursor = coll.find().limit(testOpts.rangeDocs).iterator();  //Previously is find(query)
         } else {
@@ -369,8 +370,11 @@ public class MongoWorker implements Runnable {
                 projFields.add("fld" + i);
                 i++;
             }
-            cursor = coll.find().projection(fields(include(projFields))).limit(testOpts.rangeDocs).iterator(); //Previously is find(query)
+            cursor = coll.find().limit(testOpts.rangeDocs).iterator(); //Previously is find(query)
         }
+		*/
+
+        cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").find().limit(testOpts.rangeDocs).iterator();
         while (cursor.hasNext()) {
             @SuppressWarnings("unused")
             Document obj = cursor.next();
