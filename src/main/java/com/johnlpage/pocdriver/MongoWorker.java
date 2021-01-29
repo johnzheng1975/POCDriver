@@ -366,8 +366,8 @@ public class MongoWorker implements Runnable {
             List<Bson> lsbson = new ArrayList<Bson>();
             Bson b1 = lookup("clients_type", "fld4", "_id", "clienttype");
             Bson b2 = limit(testOpts.rangeDocs);
-            lsbson.add(b1);
             lsbson.add(b2);
+            lsbson.add(b1);
             //System.out.println(lsbson);
             cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").aggregate(lsbson).iterator();
 
@@ -389,16 +389,10 @@ public class MongoWorker implements Runnable {
                 Document obj = cursor.next();
                 // System.out.println(obj);
                 //  System.out.println(obj.getString("fld"));
-                idList.add(obj.getString("fld"))
+                idList.add(obj.getString("fld"));
             }
             cursor.close();
 
-           
-            //idList.add("devpaid-prod");
-            //idList.add("zytest-dev");
-            //idList.add("devpaid-fortest");
-            //idList.add("testphoenix-test");
-            //idList.add("testjackydev0119-dev");
             Document query2 = new Document();
 
             query2.append("_id", new Document("$in", idList));
