@@ -383,19 +383,22 @@ public class MongoWorker implements Runnable {
             cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").find().limit(testOpts.rangeDocs)
                     .iterator();
 
+            List<String> idList = new ArrayList<String>();
             while (cursor.hasNext()) {
                 @SuppressWarnings("unused")
                 Document obj = cursor.next();
                 // System.out.println(obj);
+                //  System.out.println(obj.getString("fld"));
+                idList.add(obj.getString("fld"))
             }
             cursor.close();
 
-            List<String> idList = new ArrayList<String>();
-            idList.add("devpaid-prod");
-            idList.add("zytest-dev");
-            idList.add("devpaid-fortest");
-            idList.add("testphoenix-test");
-            idList.add("testjackydev0119-dev");
+           
+            //idList.add("devpaid-prod");
+            //idList.add("zytest-dev");
+            //idList.add("devpaid-fortest");
+            //idList.add("testphoenix-test");
+            //idList.add("testjackydev0119-dev");
             Document query2 = new Document();
 
             query2.append("_id", new Document("$in", idList));
