@@ -393,8 +393,8 @@ public class MongoWorker implements Runnable {
                 @SuppressWarnings("unused")
                 Document obj = cursor.next();
                 // System.out.println(obj);
-                //  System.out.println(obj.getString("fld"));
-                idList.add(obj.getString("fld"));
+                //  System.out.println(obj.getString("fld4"));
+                idList.add(obj.getString("fld4"));
             }
             cursor.close();
 
