@@ -105,6 +105,7 @@ public class POCTestOptions {
 		cliopt.addOption(null,"binary",true,"Add a binary blob of size KB");
 		cliopt.addOption(null,"rangedocs",true,"Number of documents to fetch for range queries (default 10)");
 		cliopt.addOption(null,"lookup",true,"lookup or not for range queries (default 0)");
+		cliopt.addOption(null,"filterThenAggregate",true,"Firstly filter, then aggregate (default 0)");
 		cliopt.addOption(null,"updatefields",true,"Number of fields to update (default 1)");
 		cliopt.addOption(null,"projectfields",true,"Number of fields to project in finds (default 0, which is no projection)");				
 		cliopt.addOption(null,"debug",false,"Show more detail if exceptions occur during inserts/queries");

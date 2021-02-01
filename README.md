@@ -109,6 +109,7 @@ Control options
  --updatefields  number of fields to update (default 1)
  --projectfields number of fields to project in finds (default 0 - return full document)
  --lookup        use lookup or not for range queries (default 0)
+ --filterThenAggregate        Firstly filter, thane aggregate (default 0)
 ```
 Collection options
 -------------------
