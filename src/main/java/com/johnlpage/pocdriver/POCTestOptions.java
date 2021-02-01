@@ -45,6 +45,7 @@ public class POCTestOptions {
 	int numcollections = 1;
 	int rangeDocs=10;
 	boolean lookup=false;
+	boolean filterThenAggregate=false;
 	int updateFields=1;
 	int projectFields=0;
 	boolean opsratio = false;
@@ -305,7 +306,16 @@ public class POCTestOptions {
 			if(Integer.parseInt(cmd.getOptionValue("lookup"))==1){
 				lookup = true;
 			}
-			System.out.println(lookup);
+			System.out.println("lookup:" + lookup);
+		}
+
+		if(cmd.hasOption("filterThenAggregate"))
+		{
+			System.out.println(cmd.getOptionValue("filterThenAggregate"));
+			if(Integer.parseInt(cmd.getOptionValue("filterThenAggregate"))==1){
+				filterThenAggregate = true;
+			}
+			System.out.println("filterThenAggregate:" + filterThenAggregate);
 		}
 
 		if(cmd.hasOption("updatefields"))

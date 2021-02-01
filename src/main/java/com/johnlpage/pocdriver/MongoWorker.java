@@ -366,8 +366,13 @@ public class MongoWorker implements Runnable {
             List<Bson> lsbson = new ArrayList<Bson>();
             Bson b1 = lookup("clients_type", "fld4", "_id", "clienttype");
             Bson b2 = limit(testOpts.rangeDocs);
-            lsbson.add(b2);
-            lsbson.add(b1);
+            if (testOpts.filterThenAggregate) {
+                lsbson.add(b2);
+                lsbson.add(b1);
+            } else {
+                lsbson.add(b1);
+                lsbson.add(b2);
+            }
             //System.out.println(lsbson);
             cursor = mongoClient.getDatabase("POCDB").getCollection("POCCOLL").aggregate(lsbson).iterator();
 
